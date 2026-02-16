@@ -1,0 +1,2 @@
+2026-02-16 22:19:20,932 - INFO - Successfully connected to MongoDB
+2026-02-16 22:19:20,934 - ERROR - Error converting CSV to JSON: [Errno 2] No such file or directory: 'C:\\Users\\aamir\\Network-Security-System\\Network_Data\\phishing_data.csv'
