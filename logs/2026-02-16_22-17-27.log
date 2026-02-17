@@ -1,2 +1,0 @@
-2026-02-16 22:17:28,659 - INFO - Successfully connected to MongoDB
-2026-02-16 22:17:28,661 - ERROR - Error converting CSV to JSON: [Errno 2] No such file or directory: 'networksecurity/data/network_data.csv'
