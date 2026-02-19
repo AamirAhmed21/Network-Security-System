@@ -1,6 +1,7 @@
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
-from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig
+from networksecurity.components.data_tranformation import DataTransformation
+from networksecurity.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataValidationConfig
 from networksecurity.entity.artifact_entity import ArtifactEntity, DataValidationArtifact
 from networksecurity.exception.exception import NetworkSecurityException
 
@@ -23,6 +24,12 @@ if __name__ == "__main__":
         data_validation = DataValidation(data_validation_config=data_validation_config, artifact_entity=data_ingestion_artifact)
         data_validation_artifact = data_validation.initialize_data_validation_artifact()
         logging.info(f"Data validation artifact: {data_validation_artifact}")
+        
+        logging.info("Starting data transformation process")
+        data_transformation_config = DataTransformationConfig(training_pipeline_config=trainingpipelineconfig)
+        data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact, data_transformation_config=data_transformation_config)
+        data_transformation_artifact = data_transformation.initiate_data_transformation()
+        logging.info(f"Data transformation artifact: {data_transformation_artifact}")
     except Exception as e:
         logging.error(f"Error in main: {e}")
         raise NetworkSecurityException(e, sys)
