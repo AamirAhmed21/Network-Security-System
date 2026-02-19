@@ -1,3 +1,5 @@
+from sklearn.metrics import r2_score, f1_score
+from sklearn.model_selection import GridSearchCV
 import yaml
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logging import logging
@@ -40,5 +42,43 @@ def save_object(file_path: str, obj: object) -> None:
         os.makedirs(dir_path, exist_ok=True)
         with open(file_path, 'wb') as file_obj:
             dill.dump(obj, file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+
+def load_object(file_path: str) -> object:
+    try:
+        if not os.path.exists(file_path):
+            raise NetworkSecurityException(f"The file: {file_path} is not exists", sys) 
+        
+        with open(file_path, 'rb') as file_obj:
+            return dill.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+    
+def load_numpy_array_data(file_path: str) -> np.array:
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+def evaluate_models(x_train, y_train, x_test, y_test, models: dict, param: dict) -> dict:
+    try:
+        report = {}
+        for model_name, model in models.items():
+            logging.info(f"Training {model_name} model.")
+            param_grid = param[model_name]
+            
+            gs = GridSearchCV(model, param_grid, cv=5, n_jobs=-1,)
+            gs.fit(x_train, y_train)
+            
+            model.set_params(**gs.best_params_)
+            model.fit(x_train, y_train)
+            
+            y_train_pred = model.predict(x_train)
+            y_test_pred = model.predict(x_test)
+            train_score = r2_score(y_train, y_train_pred)
+            test_score = r2_score(y_test, y_test_pred)
+            report[model_name] = test_score
+        return report
     except Exception as e:
         raise NetworkSecurityException(e, sys) from e

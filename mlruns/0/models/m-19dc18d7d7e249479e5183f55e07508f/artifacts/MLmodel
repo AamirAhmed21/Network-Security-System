@@ -1,0 +1,15 @@
+artifact_path: file:C:/Users/aamir/Network-Security-System/mlruns/0/models/m-19dc18d7d7e249479e5183f55e07508f/artifacts
+flavors:
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.9.0
+model_id: m-19dc18d7d7e249479e5183f55e07508f
+model_size_bytes: 28
+model_uuid: m-19dc18d7d7e249479e5183f55e07508f
+prompts: null
+run_id: caea7b0d31d343f7b7cb8719454b6ce5
+utc_time_created: '2026-02-19 23:36:29.452977'

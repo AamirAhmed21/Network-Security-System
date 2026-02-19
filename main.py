@@ -1,7 +1,8 @@
+from networksecurity.components.Model import ModelTrainer
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
 from networksecurity.components.data_tranformation import DataTransformation
-from networksecurity.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataValidationConfig
+from networksecurity.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataValidationConfig, ModelTrainerConfig
 from networksecurity.entity.artifact_entity import ArtifactEntity, DataValidationArtifact
 from networksecurity.exception.exception import NetworkSecurityException
 
@@ -30,6 +31,12 @@ if __name__ == "__main__":
         data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact, data_transformation_config=data_transformation_config)
         data_transformation_artifact = data_transformation.initiate_data_transformation()
         logging.info(f"Data transformation artifact: {data_transformation_artifact}")
+        
+        logging.info("Starting model training process")
+        model_trainer_config = ModelTrainerConfig(training_pipeline_config=trainingpipelineconfig)
+        model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact, model_trainer_config=model_trainer_config)
+        model_trainer_artifact = model_trainer.initiate_model_trainer()
+        logging.info(f"Model trainer artifact: {model_trainer_artifact}")
     except Exception as e:
         logging.error(f"Error in main: {e}")
         raise NetworkSecurityException(e, sys)
