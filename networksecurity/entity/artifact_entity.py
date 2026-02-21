@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 
 @dataclass
-class ArtifactEntity:
+class DataIngestionArtifact:
     trained_file_path: str
     test_file_path: str
+
+ArtifactEntity = DataIngestionArtifact
 @dataclass
 class DataValidationArtifact:
     validation_status: bool

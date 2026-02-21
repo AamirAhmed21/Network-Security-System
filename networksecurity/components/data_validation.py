@@ -2,7 +2,7 @@
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logging import logging
 from networksecurity.entity.config_entity import DataValidationConfig
-from networksecurity.entity.artifact_entity import ArtifactEntity, DataValidationArtifact
+from networksecurity.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from networksecurity.constant.training_pipeline import SCHEMA_FILE_PATH
 from networksecurity.utils.main_utils.utils import read_yamal_file, write_yaml_file
 from scipy.stats import ks_2samp
@@ -12,11 +12,11 @@ import pandas as pd
 import numpy as np
 
 class DataValidation:
-    def __init__(self, data_validation_config: DataValidationConfig, artifact_entity: ArtifactEntity):
+    def __init__(self, data_validation_config: DataValidationConfig, data_ingestion_artifact: DataIngestionArtifact):
         try:
             logging.info(f"{'>>'*20}Data Validation log started.{'<<'*20}")
             self.data_validation_config = data_validation_config
-            self.artifact_entity = artifact_entity
+            self.artifact_entity = data_ingestion_artifact
             self.schema_file_path = read_yamal_file(SCHEMA_FILE_PATH)
         except Exception as e:
             raise NetworkSecurityException(e, sys) 
@@ -111,6 +111,12 @@ class DataValidation:
              
             return data_validation_artifact
             
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+
+    def initiate_data_validation(self) -> DataValidationArtifact:
+        try:
+            return self.initialize_data_validation_artifact()
         except Exception as e:
             raise NetworkSecurityException(e, sys)
 
